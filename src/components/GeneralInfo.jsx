@@ -1,80 +1,46 @@
-import { useState } from "react";
 import FormInput from "./FormInput";
 
-function GeneralInfo({
-  person,
-  handleFirstNameChange,
-  handleLastNameChange,
-  handleEmailChange,
-  handlePhoneNumberChange,
-}) {
-  const [isActive, setIsActive] = useState(true);
-
-  function handleDone() {
-    setIsActive(false);
-  }
-
-  function handleEdit() {
-    setIsActive(true);
-  }
-
+function GeneralInfo({ generalInfo, handleChange }) {
   return (
-    <div className="general-info">
-      <form>
-        <fieldset>
-          <legend>General Info:</legend>
-          {isActive ? (
-            <>
-              <FormInput
-                label="First name:"
-                type="text"
-                className="first-name"
-                value={person.firstName}
-                onChange={handleFirstNameChange}
-              />
+    <fieldset className="general-info">
+      <legend>General Info:</legend>
 
-              <FormInput
-                label="Last name:"
-                type="text"
-                className="last-name"
-                value={person.lastName}
-                onChange={handleLastNameChange}
-              />
+      <FormInput
+        label="First name:"
+        type="text"
+        className="first-name"
+        name="firstName"
+        value={generalInfo.firstName}
+        onChange={handleChange}
+      />
 
-              <FormInput
-                label="Email:"
-                type="email"
-                className="email"
-                value={person.email}
-                onChange={handleEmailChange}
-              />
+      <FormInput
+        label="Last name:"
+        type="text"
+        className="last-name"
+        name="lastName"
+        value={generalInfo.lastName}
+        onChange={handleChange}
+      />
 
-              <FormInput
-                label="Phone number:"
-                type="tel"
-                className="tel"
-                value={person.phoneNumber}
-                onChange={handlePhoneNumberChange}
-              />
-              <div className="form-control btn-group">
-                <button
-                  type="button"
-                  className="btn btn-done"
-                  onClick={handleDone}
-                >
-                  Done
-                </button>
-                <button type="reset">Reset</button>
-              </div>
-            </>
-          ) : (
-            <button className="btn btn-edit" onClick={handleEdit}>
-              Edit
-            </button>
-          )}
-        </fieldset>
-      </form>
-    </div>
+      <FormInput
+        label="Email:"
+        type="email"
+        className="email"
+        name="email"
+        value={generalInfo.email}
+        onChange={handleChange}
+      />
+
+      <FormInput
+        label="Phone:"
+        type="tel"
+        className="tel"
+        name="phone"
+        value={generalInfo.phone}
+        onChange={handleChange}
+      />
+    </fieldset>
   );
 }
 

@@ -1,55 +1,82 @@
 import { useState } from "react";
-import "./App.css";
+import "./styles/App.css";
 import GeneralInfo from "./components/GeneralInfo";
+import Education from "./components/Education";
+import Experience from "./components/Experience";
 import Resume from "./components/Resume";
 
 function App() {
-  const [person, setPerson] = useState({
+  const [generalInfo, setGeneralInfo] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    phoneNumber: "",
+    phone: "",
+  });
+
+  const [education, setEducation] = useState({
+    school: "",
+    degree: "",
+    gradYear: "",
+  });
+
+  const [experience, setExperience] = useState({
+    company: "",
+    title: "",
+    responsibilites: "",
+    startDate: "",
+    endDate: "",
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleFirstNameChange = (event) => {
-    setPerson({ ...person, firstName: event.target.value });
+  const handleChange = (event, setter) => {
+    const { name, value } = event.target;
+    setter((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleLastNameChange = (event) => {
-    setPerson({ ...person, lastName: event.target.value });
-  };
-
-  const handleEmailChange = (event) => {
-    setPerson({ ...person, email: event.target.value });
-  };
-
-  const handlePhoneNumberChange = (event) => {
-    setPerson({ ...person, phoneNumber: event.target.value });
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (
+      !generalInfo.firstName ||
+      !generalInfo.lastName ||
+      !generalInfo.email ||
+      !generalInfo.phone
+    ) {
+      alert("Please fill out all fields.");
+      return;
+    }
+    setIsSubmitted(true);
   };
 
   return isSubmitted ? (
     <>
-      <Resume person={person} setIsSubmitted={setIsSubmitted} />
+      <Resume
+        generalInfo={generalInfo}
+        education={education}
+        experience={experience}
+        setIsSubmitted={setIsSubmitted}
+      />
     </>
   ) : (
     <>
       <h1>CV Application</h1>
-      <GeneralInfo
-        person={person}
-        handleFirstNameChange={handleFirstNameChange}
-        handleLastNameChange={handleLastNameChange}
-        handleEmailChange={handleEmailChange}
-        handlePhoneNumberChange={handlePhoneNumberChange}
-      />
-      <button
-        type="submit"
-        className="btn btn-submit"
-        onClick={() => setIsSubmitted(true)}
-      >
-        Submit
-      </button>
+      <form>
+        <GeneralInfo
+          generalInfo={generalInfo}
+          handleChange={(e) => handleChange(e, setGeneralInfo)}
+        />
+        <Education
+          education={education}
+          handleChange={(e) => handleChange(e, setEducation)}
+        />
+        <Experience
+          experience={experience}
+          handleChange={(e) => handleChange(e, setExperience)}
+        />
+        <button type="submit" className="btn btn-submit" onClick={handleSubmit}>
+          Submit
+        </button>
+      </form>
     </>
   );
 }
