@@ -1,16 +1,55 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import GeneralInfo from "./components/GeneralInfo";
+import Resume from "./components/Resume";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [person, setPerson] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+  });
 
-  return (
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleFirstNameChange = (event) => {
+    setPerson({ ...person, firstName: event.target.value });
+  };
+
+  const handleLastNameChange = (event) => {
+    setPerson({ ...person, lastName: event.target.value });
+  };
+
+  const handleEmailChange = (event) => {
+    setPerson({ ...person, email: event.target.value });
+  };
+
+  const handlePhoneNumberChange = (event) => {
+    setPerson({ ...person, phoneNumber: event.target.value });
+  };
+
+  return isSubmitted ? (
+    <>
+      <Resume person={person} setIsSubmitted={setIsSubmitted} />
+    </>
+  ) : (
     <>
       <h1>CV Application</h1>
-      <GeneralInfo />
+      <GeneralInfo
+        person={person}
+        handleFirstNameChange={handleFirstNameChange}
+        handleLastNameChange={handleLastNameChange}
+        handleEmailChange={handleEmailChange}
+        handlePhoneNumberChange={handlePhoneNumberChange}
+      />
+      <button
+        type="submit"
+        className="btn btn-submit"
+        onClick={() => setIsSubmitted(true)}
+      >
+        Submit
+      </button>
     </>
   );
 }
